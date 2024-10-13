@@ -3,9 +3,11 @@
 #include <iostream>
 using namespace std;
 
+// global variables
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
-int llSize = 0; // to keep track of the number of members in linked list
+int llSize = 0; // track current number of list elements, (could alternatively exist as a static field of DoublyLinkedList class)
 
+// class
 class DoublyLinkedList
 {
 private:
@@ -99,6 +101,15 @@ public:
         llSize++;
     }
 
+    /************************************************
+     * Function: Deletes a Node member of the 
+     * DoublyLinkedList class based on user-specified
+     * integer input of position of desired deletion
+     * 
+     * Parameters: value, integer corresponding to
+     * desired Node deletion location
+     * Return: NONE
+     ************************************************/
     void delete_pos(int value)
     { // NOTE: assumes user knows that index starts at zero
         if (!head)
@@ -135,6 +146,13 @@ public:
         delete temp;
     }
 
+    /************************************************
+     * Function: Deletes the first Node member of the 
+     * DoublyLinkedList class, as long as one exists
+     * 
+     * Parameters: NONE
+     * Return: NONE
+     ************************************************/
     void pop_front()
     {
         if (!head)
@@ -152,6 +170,14 @@ public:
         delete temp;
     }
 
+    /************************************************
+     * Function: Deletes the last Node member of the 
+     * DoublyLinkedList class, as long as one exists. 
+     * 
+     * Parameters: value, in main(), this function is
+     * called using the value of the global llSize variable to determine where the ending
+     * Return: NONE
+     ************************************************/
     void pop_back(int value)
     { // NOTE: assumes user knows that index starts at zero
         if (!head)
@@ -216,7 +242,7 @@ public:
             cout << current->data << " ";
             current = current->next;
         }
-        cout << endl;
+        cout << "\n\n";
     }
 
     void print_reverse()
@@ -229,7 +255,7 @@ public:
             cout << current->data << " ";
             current = current->prev;
         }
-        cout << endl;
+        cout << "\n\n";
     }
 
     // destructor
@@ -242,10 +268,11 @@ public:
             delete temp;
         }
     }
-
 };
 
-// Driver program
+/************************************************
+ * Function: Main
+ ************************************************/
 int main()
 {
     DoublyLinkedList list;
@@ -256,44 +283,40 @@ int main()
     for (int i = 0; i < size; ++i)
         list.push_back(rand() % (MAX_NR - MIN_NR + 1) + MIN_NR);
 
-    //begin operations
-
-    cout << "List forward: \n";
-    list.print();
+    // begin operations
 
     cout << "List backward: \n";
     list.print_reverse();
 
-    cout << "Please input a value of list integer to delete \n";
+    cout << "List forward: \n";
+    list.print();
+
+    // Demonstrate position-based node deletion
+    cout << "Please input the position of list integer to delete (starting at 1): ";
     cin >> temp;
-    if(temp >= 0 && temp <= llSize)
+    if (temp > 0 && temp <= llSize)
     {
-        list.delete_pos(temp-1); // deletes head based on position
+        list.delete_pos(temp - 1); // deletes head based on position
         cout << "After deletion: \n";
         list.print();
     }
     else
         cout << "Invalid input, must be within range of 0-" << llSize << ".\n";
-        
 
-    cout << "After Head deletion loop:\n";
-    for (int i = 0; i < 10; i++) // demonstrate head deletion with recursive loop
-    {
-        list.delete_pos(0);
-    }
-    list.print();
-
+    // Demonstrate pop_front() functionality
     cout << "Popping front: \n";
     list.pop_front();
     list.print();
 
+    // Demonstrate pop_back() functionality
     cout << "Popping back: \n";
     list.pop_back(llSize - 1);
     list.print();
 
-    //END OF PROGRAM
+    // END OF PROGRAM
     cout << "Deleting list, then trying to print.\n";
     list.~DoublyLinkedList();
+    list.print();
 
     return 0;
 }
