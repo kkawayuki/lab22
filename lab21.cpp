@@ -2,6 +2,7 @@
 using namespace std;
 
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
+int llSize = 0; // to keep track of the number of members in linked list
 
 class DoublyLinkedList
 {
@@ -22,21 +23,12 @@ private:
     Node *head;
     Node *tail;
 
-    static int llSize; //to keep track of the number of members in linked list
-
 public:
     // constructor
     DoublyLinkedList()
     {
         head = nullptr;
         tail = nullptr;
-    }
-
-    //setter
-    void set_llSize(int value) 
-    {
-        if(value >= 0)
-            llSize = value;
     }
 
     // methods
@@ -142,7 +134,7 @@ public:
     }
 
     void pop_front()
-    { 
+    {
         if (!head)
             return; // Empty list
 
@@ -151,11 +143,10 @@ public:
         if (!temp)
             return; // head not found
 
-        
         head = temp->next; // Deleting the head
         temp->next->prev = temp->prev;
-        
-        llSize++;
+
+        llSize--;
         delete temp;
     }
 
@@ -174,7 +165,7 @@ public:
 
         temp->prev->next = temp->next;
         tail = temp->prev; // Deleting the tail
-        
+
         llSize--;
         delete temp;
     }
@@ -209,7 +200,7 @@ public:
             tail = temp->prev; // Deleting the tail
         }
 
-        llSize--; 
+        llSize--;
         delete temp;
     }
 
@@ -224,8 +215,7 @@ public:
             current = current->next;
         }
         cout << endl;
-
-        cout << "\nCURRENT SIZE OF LL: " << llSize << '\n';
+        //cout << "CURRENT SIZE OF LL: " << llSize << "\n\n"; //REMOVE LATER, FOR TESTING PURPOSES
     }
 
     void print_reverse()
@@ -258,18 +248,17 @@ int main()
 {
     DoublyLinkedList list;
 
-    //populate linked list based on MAX_LS
+    // populate linked list based on MAX_LS
     int size = rand() % (MAX_LS - MIN_LS + 1) + MIN_LS;
     for (int i = 0; i < size; ++i)
         list.push_back(rand() % (MAX_NR - MIN_NR + 1) + MIN_NR);
-    
-    //set value
-    list.set_llSize(0); //set initial size to zero
 
-    cout << "List forward: ";
+    // attempt to set size
+
+    cout << "List forward: \n";
     list.print();
 
-    cout << "List backward: ";
+    cout << "List backward: \n";
     list.print_reverse();
 
     // cout << "Deleting list, then trying to print.\n";
@@ -277,28 +266,30 @@ int main()
     // cout << "List forward: ";
     // list.print();
 
-    cout << "test---------------------\n";
+    cout << "---------------------\n";
+
+    cout << "After deleting pos )\n";
+    list.delete_pos(4); // deletes head based on position
     list.print();
 
-    list.delete_pos(0); // deletes head based on position
+    list.delete_pos(size - 1); // deletes tail based on listSize, note 1 less than variable used to declare because starts at 0.
     list.print();
 
-    list.delete_pos(size-1); // deletes tail based on listSize, note 1 less than variable used to declare because starts at 0. 
-    list.print();
-
-    cout << "Head deletion loop\n";
-    for(int i = 0; i < 10; i++) // demonstrate head deletion with recursive loop
+    cout << "After Head deletion loop:\n";
+    for (int i = 0; i < 10; i++) // demonstrate head deletion with recursive loop
     {
         list.delete_pos(0);
-        list.print();
     }
+    list.print();
 
-    cout << "attempting to pop front\n";
+    cout << "Attempting to pop front\n";
     list.pop_front();
     list.print();
 
-    cout << "attempting to pop back \n";
-    list.pop_back(size-1);
+    cout << "Attempting to pop back \n";
+    list.pop_back(llSize - 1);
+    list.print();
+
 
     return 0;
 }
