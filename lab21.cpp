@@ -102,10 +102,10 @@ public:
     }
 
     /************************************************
-     * Function: Deletes a Node member of the 
+     * Function: Deletes a Node member of the
      * DoublyLinkedList class based on user-specified
      * integer input of position of desired deletion
-     * 
+     *
      * Parameters: value, integer corresponding to
      * desired Node deletion location
      * Return: NONE
@@ -147,9 +147,9 @@ public:
     }
 
     /************************************************
-     * Function: Deletes the first Node member of the 
+     * Function: Deletes the first Node member of the
      * DoublyLinkedList class, as long as one exists
-     * 
+     *
      * Parameters: NONE
      * Return: NONE
      ************************************************/
@@ -171,22 +171,21 @@ public:
     }
 
     /************************************************
-     * Function: Deletes the last Node member of the 
-     * DoublyLinkedList class, as long as one exists. 
-     * 
-     * Parameters: value, in main(), this function is
-     * called using the value of the global llSize variable to determine where the ending
+     * Function: Deletes the last Node member of the
+     * DoublyLinkedList class, as long as one exists.
+     *
+     * Parameters: NONE
      * Return: NONE
      ************************************************/
-    void pop_back(int value)
+    void pop_back()
     { // NOTE: assumes user knows that index starts at zero
         if (!head)
             return; // Empty list
 
         Node *temp = head;
 
-        for (int i = 0; temp, i < value; i++) // traverses through linked list from start if valid, based on value
-            temp = temp->next;                // traverse until found
+        for (int i = 0; temp, i < llSize - 1; i++) // traverses through linked list from start if valid, based on value
+            temp = temp->next;                     // traverse until found
 
         if (!temp)
             return; // Value not found
@@ -310,7 +309,7 @@ int main()
 
     // Demonstrate pop_back() functionality
     cout << "Popping back: \n";
-    list.pop_back(llSize - 1);
+    list.pop_back();
     list.print();
 
     // END OF PROGRAM
