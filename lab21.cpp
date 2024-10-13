@@ -1,3 +1,5 @@
+// COMSC-210 | lab 22 | Kent Kawashima
+// IDE used: Visual Studio Code
 #include <iostream>
 using namespace std;
 
@@ -170,7 +172,7 @@ public:
         delete temp;
     }
 
-    void delete_node(int value)
+    void delete_val(int value)
     {
         if (!head)
             return; // Empty list
@@ -215,7 +217,6 @@ public:
             current = current->next;
         }
         cout << endl;
-        //cout << "CURRENT SIZE OF LL: " << llSize << "\n\n"; //REMOVE LATER, FOR TESTING PURPOSES
     }
 
     void print_reverse()
@@ -241,19 +242,21 @@ public:
             delete temp;
         }
     }
+
 };
 
 // Driver program
 int main()
 {
     DoublyLinkedList list;
+    int temp;
 
     // populate linked list based on MAX_LS
     int size = rand() % (MAX_LS - MIN_LS + 1) + MIN_LS;
     for (int i = 0; i < size; ++i)
         list.push_back(rand() % (MAX_NR - MIN_NR + 1) + MIN_NR);
 
-    // attempt to set size
+    //begin operations
 
     cout << "List forward: \n";
     list.print();
@@ -261,19 +264,17 @@ int main()
     cout << "List backward: \n";
     list.print_reverse();
 
-    // cout << "Deleting list, then trying to print.\n";
-    // list.~DoublyLinkedList();
-    // cout << "List forward: ";
-    // list.print();
-
-    cout << "---------------------\n";
-
-    cout << "After deleting pos )\n";
-    list.delete_pos(4); // deletes head based on position
-    list.print();
-
-    list.delete_pos(size - 1); // deletes tail based on listSize, note 1 less than variable used to declare because starts at 0.
-    list.print();
+    cout << "Please input a value of list integer to delete \n";
+    cin >> temp;
+    if(temp >= 0 && temp <= llSize)
+    {
+        list.delete_pos(temp-1); // deletes head based on position
+        cout << "After deletion: \n";
+        list.print();
+    }
+    else
+        cout << "Invalid input, must be within range of 0-" << llSize << ".\n";
+        
 
     cout << "After Head deletion loop:\n";
     for (int i = 0; i < 10; i++) // demonstrate head deletion with recursive loop
@@ -282,14 +283,17 @@ int main()
     }
     list.print();
 
-    cout << "Attempting to pop front\n";
+    cout << "Popping front: \n";
     list.pop_front();
     list.print();
 
-    cout << "Attempting to pop back \n";
+    cout << "Popping back: \n";
     list.pop_back(llSize - 1);
     list.print();
 
+    //END OF PROGRAM
+    cout << "Deleting list, then trying to print.\n";
+    list.~DoublyLinkedList();
 
     return 0;
 }
