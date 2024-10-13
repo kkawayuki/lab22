@@ -22,12 +22,21 @@ private:
     Node *head;
     Node *tail;
 
+    static int llSize; //to keep track of the number of members in linked list
+
 public:
     // constructor
     DoublyLinkedList()
     {
         head = nullptr;
         tail = nullptr;
+    }
+
+    //setter
+    void set_llSize(int value) 
+    {
+        if(value >= 0)
+            llSize = value;
     }
 
     // methods
@@ -42,6 +51,7 @@ public:
             newNode->prev = tail;
             tail = newNode;
         }
+        llSize++;
     }
 
     void push_front(int value)
@@ -55,6 +65,7 @@ public:
             head->prev = newNode;
             head = newNode;
         }
+        llSize++;
     }
 
     void insert_after(int value, int position)
@@ -90,6 +101,8 @@ public:
         else
             tail = newNode; // Inserting at the end
         temp->next = newNode;
+
+        llSize++;
     }
 
     void delete_pos(int value)
@@ -124,6 +137,7 @@ public:
             tail = temp->prev; // Deleting the tail
         }
 
+        llSize--;
         delete temp;
     }
 
@@ -141,10 +155,11 @@ public:
         head = temp->next; // Deleting the head
         temp->next->prev = temp->prev;
         
+        llSize++;
         delete temp;
     }
 
-    void pop_(int value)
+    void pop_back(int value)
     { // NOTE: assumes user knows that index starts at zero
         if (!head)
             return; // Empty list
@@ -160,6 +175,7 @@ public:
         temp->prev->next = temp->next;
         tail = temp->prev; // Deleting the tail
         
+        llSize--;
         delete temp;
     }
 
@@ -193,6 +209,7 @@ public:
             tail = temp->prev; // Deleting the tail
         }
 
+        llSize--; 
         delete temp;
     }
 
@@ -207,6 +224,8 @@ public:
             current = current->next;
         }
         cout << endl;
+
+        cout << "\nCURRENT SIZE OF LL: " << llSize << '\n';
     }
 
     void print_reverse()
@@ -238,10 +257,15 @@ public:
 int main()
 {
     DoublyLinkedList list;
-    int size = rand() % (MAX_LS - MIN_LS + 1) + MIN_LS;
 
+    //populate linked list based on MAX_LS
+    int size = rand() % (MAX_LS - MIN_LS + 1) + MIN_LS;
     for (int i = 0; i < size; ++i)
         list.push_back(rand() % (MAX_NR - MIN_NR + 1) + MIN_NR);
+    
+    //set value
+    list.set_llSize(0); //set initial size to zero
+
     cout << "List forward: ";
     list.print();
 
@@ -262,8 +286,8 @@ int main()
     list.delete_pos(size-1); // deletes tail based on listSize, note 1 less than variable used to declare because starts at 0. 
     list.print();
 
-    cout << "Head deletion loop"
-    for (int i = 0; i < 10; i++) // demonstrate head deletion with recursive loop
+    cout << "Head deletion loop\n";
+    for(int i = 0; i < 10; i++) // demonstrate head deletion with recursive loop
     {
         list.delete_pos(0);
         list.print();
@@ -272,6 +296,9 @@ int main()
     cout << "attempting to pop front\n";
     list.pop_front();
     list.print();
+
+    cout << "attempting to pop back \n";
+    list.pop_back(size-1);
 
     return 0;
 }
